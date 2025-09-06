@@ -5,14 +5,6 @@ import { Person } from '../types/Person';
 import { Loader } from '../components/Loader';
 import { PeopleTable } from '../components/PeopleContent/PeopleTable';
 
-const preparePeople = (people: Person[]): Person[] => {
-  return people.map(person => ({
-    ...person,
-    mother: people.find(mother => mother.name === person.motherName),
-    father: people.find(father => father.name === person.fatherName),
-  }));
-};
-
 export const PeoplePage = () => {
   const [people, setPeople] = useState<Person[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -24,9 +16,7 @@ export const PeoplePage = () => {
     try {
       const apiPeople = await getPeople();
 
-      const preparedPeople = preparePeople(apiPeople);
-
-      setPeople(preparedPeople);
+      setPeople(apiPeople);
     } catch (error) {
       setIsError(true);
     }
